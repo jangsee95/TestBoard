@@ -1,1 +1,59 @@
-init
+# theatreBoard
+
+## 프로젝트 개요
+
+`theatreBoard`는 JSP와 Servlet을 기반으로 한 간단한 웹 애플리케이션입니다. 이 프로젝트는 사용자 관리 및 게시판 기능을 포함하고 있으며, 연극 정보 관련 기능을 확장할 수 있는 구조를 가지고 있습니다.
+
+## 주요 기능
+
+- **사용자 관리**
+  - 회원가입
+  - 로그인/로그아웃
+  - 회원정보 수정
+  - 비밀번호 변경
+
+- **게시판**
+  - 게시글 목록 조회
+  - 게시글 상세 조회
+  - 게시글 작성
+  - 게시글 수정
+
+- **연극 정보 (개발 중)**
+  - 연극 목록 조회 기능이 포함될 예정입니다.
+
+## 기술 스택
+
+- **Backend:** Java, Servlet
+- **Frontend:** JSP, JSTL
+- **Database:** MySQL
+- **Password Hashing:** jBCrypt
+- **Web Server:** Tomcat
+
+## 프로젝트 구조
+
+```
+theatreBoard/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   ├── board/      # 게시판 관련 (Controller, Service, DAO, DTO)
+│   │   │   ├── common/     # 공통 모듈 (DBUtil)
+│   │   │   ├── theatre/    # 연극 정보 관련 (Controller, Service, DAO, DTO)
+│   │   │   └── user/       # 사용자 관련 (Controller, Service, DAO, DTO)
+│   │   └── webapp/
+│   │       ├── WEB-INF/
+│   │       │   ├── lib/        # 라이브러리 (JAR 파일)
+│   │       │   └── view/       # JSP 뷰 파일
+│   │       ├── css/
+│   │       ├── js/
+│   │       └── index.jsp   # 메인 페이지
+├── .project
+├── .classpath
+└── README.md
+```
+
+## 설정 및 실행
+
+1. **데이터베이스 설정**: `common.util.DBUtil` 클래스에서 데이터베이스 연결 정보를 확인하고, 자신의 환경에 맞게 수정해야 합니다.
+2. **Tomcat 서버 설정**: Eclipse 또는 다른 IDE에서 Tomcat 서버를 설정하고, 프로젝트를 서버에 추가합니다.
+3. **실행**: 서버를 시작하고, 웹 브라우저에서 `http://localhost:8080/theatreBoard/` 와 같은 주소로 접속합니다.
