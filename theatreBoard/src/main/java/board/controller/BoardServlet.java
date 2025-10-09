@@ -72,7 +72,6 @@ public class BoardServlet extends HttpServlet {
 		BoardDTO board = boardService.getBoard(boardId);
 		req.setAttribute("board", board);
 		req.getRequestDispatcher("/WEB-INF/view/board/updateForm.jsp").forward(req, resp);
-		
 	}
 
 	private void doWrite(HttpServletRequest req, HttpServletResponse resp) throws IOException {

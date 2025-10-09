@@ -20,24 +20,6 @@ public class BoardService {
 	}
 
 	public List<BoardDTO> getBoardList() {
-//		// === Start of Temporary Debugging Code ===
-//		List<BoardDTO> dummyList = new ArrayList<>();
-//
-//		// Create a dummy author
-//		UserDTO dummyAuthor = new UserDTO();
-//		dummyAuthor.setUserName("테스터");
-//
-//		// Create a dummy board post
-//		BoardDTO dummyBoard = new BoardDTO();
-//		dummyBoard.setBoardId(999);
-//		dummyBoard.setTitle("이것은 가짜 테스트 게시물입니다.");
-//		dummyBoard.setAuthor(dummyAuthor);
-//
-//		dummyList.add(dummyBoard);
-//		return dummyList;
-//		// === End of Temporary Debugging Code ===
-
-		
 		try {
 			return boardDAO.selectAll();
 		} catch (SQLException e) {
@@ -67,6 +49,15 @@ public class BoardService {
 	public boolean updateBoard(BoardDTO board) {
 		try {
 			return boardDAO.update(board);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public boolean deleteBoard(int boardId) {
+		try {
+			return boardDAO.delete(boardId);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
