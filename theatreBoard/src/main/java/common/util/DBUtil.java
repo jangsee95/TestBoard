@@ -5,9 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBUtil {
-	private final String url = "jdbc:postgresql://dpg-d3m7s9umcj7s73afb7q0-a.singapore-postgres.render.com/theatre_board";
-	private final String username = "theatre_user"; //
-	private final String password = "ue6zPoPzgppYe8cPJNMJSoRIT3WeWAsP";
+	private final String url = System.getenv("DB_URL");
+	private final String username = System.getenv("DB_USERNAME");
+	private final String password = System.getenv("DB_PASSWORD");
 	private final String driverName = "org.postgresql.Driver";
 	/**
 	 * Singleton Design Pattern을 적용해준다.
