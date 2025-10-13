@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+import board.dao.BoardDAO;
 import user.dao.UserDAO;
 import user.dto.UserAuthDTO;
 import user.dto.UserDTO;
@@ -77,5 +78,17 @@ public class UserService {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	public boolean deleteUser(String userId) {
+		try {
+			BoardDAO boardDAO = BoardDAO.getInstance();
+			
+			boardDAO.deleteByUserId(userId);
+			return userDAO.delete(userId);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 }

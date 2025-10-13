@@ -21,8 +21,11 @@
         
         <label for="email">이메일:</label><br>
         <input type="email" id="email" name="email" value="${sessionScope.loginUser.email}"><br><br>
-        
-        <input type="submit" value="수정하기">
+        <input type="submit" value="수정">
+    </form>
+    <form action="${pageContext.request.contextPath}/user?act=deleteUser" method="post">
+    	<input type="hidden" name="userId" value="${sessionScope.loginUser.userId}">
+    	<input type="submit" value="삭제">
     </form>
 </c:if>
 

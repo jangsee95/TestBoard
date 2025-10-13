@@ -105,6 +105,14 @@ public class BoardDAO {
 			
 			return pstmt.executeUpdate() == 1;
 		}
-				
+	}
+	
+	public boolean deleteByUserId(String userId) throws SQLException {
+		String sql = "DELETE FROM boards WHERE user_id = ?";
+		try (Connection conn = util.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql);) {
+			pstmt.setString(1, userId);
+			return pstmt.executeUpdate() >= 1;
+		}
 	}
 }

@@ -22,6 +22,7 @@
     <a href="${pageContext.request.contextPath}/board?act=list"><button>목록</button></a>
     <c:if test="${not empty sessionScope.loginUser && board.author.userId == sessionScope.loginUser.userId}">
 	<a href="${pageContext.request.contextPath}/board?act=updateForm&boardId=${board.boardId}"><button>수정</button></a>
+	<a href="${pageContext.request.contextPath}/board?act=remove&boardId=${board.boardId}"><button>삭제</button></a>
 	</c:if>
 </div>
 

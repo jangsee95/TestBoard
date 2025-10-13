@@ -59,8 +59,29 @@ public class UserMainServlet extends HttpServlet {
 		case "changePassword":
 			doChangePassword(req, resp);
 			break;
+		case "deleteUser":
+			doDeleteUser(req,resp);
+			break;
 		}
 
+	}
+
+	private void doDeleteUser(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		String userId = req.getParameter("userId");
+		String msg = "회원 탈퇴 되었습니다.";
+		HttpSession session = req.getSession();
+		
+		if (userService.deleteUser(userId)) {
+			session.invalidate();
+			
+			req.getSession().setAttribute("msg", msg);
+			
+		} else {
+			msg = "회원탈퇴에 실패했습니다.";
+			req.getSession().setAttribute("msg", msg);
+		}
+		
+		resp.sendRedirect(req.getContextPath());
 	}
 
 	private void doChangePassword(HttpServletRequest req, HttpServletResponse resp) throws IOException {

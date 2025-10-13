@@ -121,24 +121,15 @@ public class UserDAO {
 		return false;
 	}
 
-	public boolean delete(String userId) {
+	public boolean delete(String userId) throws SQLException {
 		String sql = "DELETE FROM users WHERE user_id = ?";
-
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-
-		try {
-			conn = util.getConnection();
-			pstmt = conn.prepareStatement(sql);
+		
+		try (
+				Connection conn = util.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				) {
 			pstmt.setString(1, userId);
-			int result = pstmt.executeUpdate();
-			return result == 1 ? true : false;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			util.close(pstmt, conn);
+			return pstmt.executeUpdate() == 1;
 		}
-
-		return false;
 	}
 }

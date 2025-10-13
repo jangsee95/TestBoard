@@ -45,8 +45,25 @@ public class BoardServlet extends HttpServlet {
 			case "update" :
 				doUpdate(req, resp);
 				break;
+			case "remove" :
+				doRemove(req, resp);
+				break;
 			}
 		}
+	
+	private void doRemove(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		int boardId = Integer.parseInt(req.getParameter("boardId"));
+		String msg = "게시글이 삭제되었습니다.";
+		if (boardService.deleteBoard(boardId)) {
+			req.getSession().setAttribute("msg", msg);
+		} else {
+			msg = "삭제에 실패했습니다.";
+			req.getSession().setAttribute("msg", msg);
+		}
+		
+		
+		resp.sendRedirect(req.getContextPath() + "/board?act=list");
+	}
 
 	private void doUpdate(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		int boardId = Integer.parseInt(	req.getParameter("boardId"));
