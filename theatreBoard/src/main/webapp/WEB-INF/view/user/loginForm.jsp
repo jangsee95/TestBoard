@@ -1,11 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>로그인</title>
-</head>
+<%@ include file="/WEB-INF/view/common/header.jsp" %>
 <body>
     <h2>로그인</h2>
     <form action="${pageContext.request.contextPath}/user?act=login" method="post">

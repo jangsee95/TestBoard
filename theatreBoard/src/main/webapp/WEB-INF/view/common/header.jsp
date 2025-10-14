@@ -10,7 +10,7 @@
 <body>
     <header>
         <nav>
-            <a href="${pageContext.request.contextPath}">Home</a>
+            <a href="${pageContext.request.contextPath}/index.jsp">Home</a>
             <c:choose>
                 <c:when test="${empty sessionScope.loginUser}">
                     <a href="${pageContext.request.contextPath}/user?act=loginForm">로그인</a>
