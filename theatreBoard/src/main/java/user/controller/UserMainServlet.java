@@ -137,7 +137,7 @@ public class UserMainServlet extends HttpServlet {
 
 	private void doLogout(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		req.getSession().invalidate();
-		resp.sendRedirect(req.getContextPath());
+		resp.sendRedirect(req.getContextPath() + "index.jsp");
 	}
 
 	private void doMyPage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -153,7 +153,7 @@ public class UserMainServlet extends HttpServlet {
 		UserDTO user = userService.login(userId, rawPassword);
 		if (user != null) {
 			session.setAttribute("loginUser", user);
-			resp.sendRedirect(req.getContextPath());
+			resp.sendRedirect(req.getContextPath() + "index.jsp");
 		} else {
 			session.setAttribute("msg", "아이디 또는 비밀번호가 일치하지 않습니다.");
 			resp.sendRedirect(req.getContextPath() + "/user?act=loginForm");
