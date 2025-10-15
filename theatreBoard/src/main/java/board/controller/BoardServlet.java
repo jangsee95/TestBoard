@@ -2,6 +2,7 @@ package board.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import board.dto.BoardDTO;
 import board.service.BoardService;
@@ -94,6 +95,19 @@ public class BoardServlet extends HttpServlet {
 	private void doWrite(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		HttpSession session = req.getSession();
 		
+		String formToken = req.getParameter("token");
+		String sessionToken = (String) session.getAttribute("formToken");
+		
+		if (session != null) {
+			session.removeAttribute("formToken");
+		}
+		
+		if (sessionToken == null ||formToken == null || !sessionToken.equals(formToken)) {
+			req.getSession().setAttribute("msg", "비상적인 요청이거나 이미 처리된 요청입니다.");
+			resp.sendRedirect(req.getContextPath() + "/board?act=list");
+			return;
+		}
+		
 		if (session == null || session.getAttribute("loginUser") == null) {
 			req.getSession().setAttribute("msg", "로그인이 필요한 서비스입니다.");
 			resp.sendRedirect(req.getContextPath() + "/user?act=loginForm");
@@ -125,6 +139,11 @@ public class BoardServlet extends HttpServlet {
 			resp.sendRedirect(req.getContextPath() + "/user?act=loginForm");
 			return;
 		}
+		
+		String token = UUID.randomUUID().toString();
+		session.setAttribute("formToken", token);
+		req.setAttribute("token", token);
+		
 		
 		req.getRequestDispatcher("/WEB-INF/view/board/writeForm.jsp").forward(req, resp);
 	}

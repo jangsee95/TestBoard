@@ -6,8 +6,9 @@ public class TheatreDTO {
 	private int theatreId;
 	private String title;
 	private String genre;
+	private String content;
 	private int playTime;
-	private String posterUri;
+	private String posterUrl;
 	private LocalDateTime performanceDateTime;
 	private LocalDateTime createdAt;
 	
@@ -16,14 +17,15 @@ public class TheatreDTO {
 	}
 
 
-	 public TheatreDTO(int theatreId, String title, String genre, int playTime, String posterUrl,
+	 public TheatreDTO(int theatreId, String title, String genre,String content, int playTime, String posterUrl,
 			LocalDateTime performanceDateTime, LocalDateTime createdAt) {
 		super();
 		this.theatreId = theatreId;
 		this.title = title;
 		this.genre = genre;
+		this.content = content;
 		this.playTime = playTime;
-		this.posterUri = posterUrl;
+		this.posterUrl = posterUrl;
 		this.performanceDateTime = performanceDateTime;
 		this.createdAt = createdAt;
 	 }
@@ -31,6 +33,16 @@ public class TheatreDTO {
 
 	 public int getTheatreId() {
 		 return theatreId;
+	 }
+
+
+	 public String getContent() {
+		return content;
+	}
+
+
+	 public void setContent(String content) {
+		 this.content = content;
 	 }
 
 
@@ -69,13 +81,13 @@ public class TheatreDTO {
 	 }
 
 
-	 public String getPosterUri() {
-		 return posterUri;
+	 public String getPosterUrl() {
+		 return posterUrl;
 	 }
 
 
-	 public void setPosterUri(String posterUrl) {
-		 this.posterUri = posterUrl;
+	 public void setPosterUrl(String posterUrl) {
+		 this.posterUrl = posterUrl;
 	 }
 
 
@@ -101,12 +113,9 @@ public class TheatreDTO {
 
 	 @Override
 	 public String toString() {
-		return "TheatreDTO [theatreId=" + theatreId + ", title=" + title + ", genre=" + genre + ", playTime=" + playTime
-				+ ", posterUrl=" + posterUri + ", performanceDateTime=" + performanceDateTime + ", createdAt="
-				+ createdAt + "]";
+		return "TheatreDTO [theatreId=" + theatreId + ", title=" + title + ", genre=" + genre + ", content=" + content
+				+ ", playTime=" + playTime + ", posterUrl=" + posterUrl + ", performanceDateTime=" + performanceDateTime
+				+ ", createdAt=" + createdAt + "]";
 	 }
-
-	 
-	 
 	 
 }

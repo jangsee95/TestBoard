@@ -24,15 +24,16 @@ public class TheatreDAO {
 	}
 
 	public boolean insert(TheatreDTO theatre) throws SQLException {
-		String sql = "INSERT INTO theatres (title, genre, playtime, poster_uri, performance_datetime)"
-				+ "VALUES (? , ? ,? ,? , ?)";
+		String sql = "INSERT INTO theatres (title, genre, content, playtime, poster_url, performance_datetime)"
+				+ "VALUES (?, ?, ?, ?, ?, ?)";
 
 		try (Connection conn = util.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setString(1, theatre.getTitle());
 			pstmt.setString(2, theatre.getGenre());
-			pstmt.setInt(3, theatre.getPlayTime());
-			pstmt.setString(4, theatre.getPosterUri());
-			pstmt.setObject(5, theatre.getPerformanceDateTime());
+			pstmt.setString(3, theatre.getContent());
+			pstmt.setInt(4, theatre.getPlayTime());
+			pstmt.setString(5, theatre.getPosterUrl());
+			pstmt.setObject(6, theatre.getPerformanceDateTime());
 
 			return pstmt.executeUpdate() == 1;
 		}
@@ -50,8 +51,9 @@ public class TheatreDAO {
 				theatre.setTheatreId(rs.getInt("theatre_id"));
 				theatre.setTitle(rs.getString("title"));
 				theatre.setGenre(rs.getString("genre"));
+				theatre.setContent(rs.getString("content"));
 				theatre.setPlayTime(rs.getInt("playtime"));
-				theatre.setPosterUri(rs.getString("poster_uri"));
+				theatre.setPosterUrl(rs.getString("poster_url"));
 				theatre.setPerformanceDateTime(rs.getTimestamp("performance_datetime").toLocalDateTime());
 				theatre.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
 				theatres.add(theatre);
@@ -71,8 +73,9 @@ public class TheatreDAO {
 					theatre.setTheatreId(rs.getInt("theatre_id"));
 					theatre.setTitle(rs.getString("title"));
 					theatre.setGenre(rs.getString("genre"));
+					theatre.setContent(rs.getString("content"));
 					theatre.setPlayTime(rs.getInt("playtime"));
-					theatre.setPosterUri(rs.getString("poster_uri"));
+					theatre.setPosterUrl(rs.getString("poster_url"));
 					theatre.setPerformanceDateTime(rs.getTimestamp("performance_datetime").toLocalDateTime());
 					theatre.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
 					return theatre;
@@ -83,14 +86,15 @@ public class TheatreDAO {
 	}
 
 	public boolean update(TheatreDTO theatre) throws SQLException {
-		String sql = "UPDATE theatres SET title = ?, genre = ?, playtime = ?, poster_uri = ?, performance_datetime = ? WHERE theatre_id = ?";
+		String sql = "UPDATE theatres SET title = ?, genre = ?, content = ?, playtime = ?, poster_url = ?, performance_datetime = ? WHERE theatre_id = ?";
 		try (Connection conn = util.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setString(1, theatre.getTitle());
 			pstmt.setString(2, theatre.getGenre());
-			pstmt.setInt(3, theatre.getPlayTime());
-			pstmt.setString(4, theatre.getPosterUri());
-			pstmt.setObject(5, theatre.getPerformanceDateTime());
-			pstmt.setInt(6, theatre.getTheatreId());
+			pstmt.setString(3, theatre.getContent());
+			pstmt.setInt(4, theatre.getPlayTime());
+			pstmt.setString(5, theatre.getPosterUrl());
+			pstmt.setObject(6, theatre.getPerformanceDateTime());
+			pstmt.setInt(7, theatre.getTheatreId());
 
 			return pstmt.executeUpdate() == 1;
 		}
