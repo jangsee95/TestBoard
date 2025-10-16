@@ -10,6 +10,5 @@
         <input type="password" id="password" name="password"><br><br>
         <input type="submit" value="로그인">
     </form>
-    <a href="${pageContext.request.contextPath}/user?act=joinForm"><button>회원가입</button></a>
 </body>
 <%@ include file="/WEB-INF/view/common/footer.jsp" %>

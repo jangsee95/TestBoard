@@ -6,6 +6,8 @@ import java.util.UUID;
 
 import board.dto.BoardDTO;
 import board.service.BoardService;
+import comment.dto.CommentDTO;
+import comment.service.CommentService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -153,8 +155,15 @@ public class BoardServlet extends HttpServlet {
 		
 		BoardDTO board = boardService.getBoard(boardId);
 		
-		req.setAttribute("board", board);
+		CommentService commentService = CommentService.getInstance();
+		List<CommentDTO> commentList = commentService.getList(boardId);
 		
+		String commentToken = UUID.randomUUID().toString();
+		req.getSession().setAttribute("commentFormToken", commentToken);
+		req.setAttribute("commentToken", commentToken);
+		
+		req.setAttribute("board", board);
+		req.setAttribute("commentList", commentList);
 		req.getRequestDispatcher("/WEB-INF/view/board/view.jsp").forward(req, resp);
 	}
 

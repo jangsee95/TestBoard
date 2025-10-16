@@ -14,7 +14,6 @@
         <input type="email" id="email" name="email"><br><br>
         <input type="submit" value="회원가입">
     </form>
-        <a href="${pageContext.request.contextPath}/user?act=loginForm"><button>로그인</button></a>
 </body>
 
 <%@ include file="/WEB-INF/view/common/footer.jsp" %>

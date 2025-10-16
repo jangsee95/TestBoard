@@ -3,8 +3,7 @@
 <%@ include file="/WEB-INF/view/common/header.jsp"%>
 
 <h2>게시글 작성</h2>
-<form action="${pageContext.request.contextPath}/board?act=write"
-	method="post" onsubmit="return disableSubmitButton(this)">
+<form action="${pageContext.request.contextPath}/board?act=write" method="post" onsubmit="return disableSubmitButton(this)">
 	<input type="hidden" name="token" value="${token}">
 	<label for="title">제목</label> <input type="text" id="title"
 		name="title"><br> <label for="author">작성자</label> <input
