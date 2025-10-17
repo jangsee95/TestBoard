@@ -37,6 +37,15 @@ public class CommentService {
 		}
 	}
 	
+	public CommentDTO getOne(int commentId) {
+		try {
+			return commentDAO.selectOneByCommentId(commentId);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	public boolean updateComment(CommentDTO comment) {
 		try {
 			commentDAO.updateComment(comment);

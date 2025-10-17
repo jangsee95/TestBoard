@@ -50,6 +50,30 @@ public class CommentDAO {
 		} 
 	}
 	
+	public CommentDTO selectOneByCommentId(int commentId) throws SQLException {
+		CommentDTO comment = new CommentDTO();
+		String sql = "SELECT c.comment_id, c.board_id, c.content, c.created_at, u.user_id, u.user_name\r\n"
+				+ "FROM comments c JOIN users u ON c.user_id = u.user_id\r\n"
+				+ "WHERE c.comment_id = ?;";
+		try (Connection conn = util.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql);) {
+			pstmt.setInt(1, commentId);
+			try (ResultSet rs = pstmt.executeQuery()) {
+				if (rs.next()) {
+					comment.setCommentId(rs.getInt("comment_id"));
+					comment.setBoardId(rs.getInt("board_id"));
+					comment.setContent(rs.getString("content"));
+					comment.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+					UserDTO author = new UserDTO();
+					author.setUserId(rs.getString("user_id"));
+					author.setUserName(rs.getString("user_name"));
+					comment.setAuthor(author);
+				}
+			}
+		}
+		return comment;
+	}
+	
 	
 	public void insert(CommentDTO comment) throws SQLException {
 		String sql = "INSERT INTO comments (board_id, user_id, content) VALUES (?, ?, ?)";
