@@ -9,6 +9,7 @@
         <div>
             <h3>${board.title}</h3>
             <p><strong>작성자:</strong> ${board.author.userName}</p>
+           <p><strong>작성일자:</strong> ${board.createdAt.toLocalDate()} ${String.format('%02d', board.createdAt.hour)}:${String.format('%02d', board.createdAt.minute)}</p>
             <hr>
             <div>
                 <p>${board.content}</p>
@@ -35,7 +36,7 @@
 		<div class ="commentBox" id="comment-box-${comment.commentId}">
 			<p id="comment-content-${comment.commentId}">${comment.content}</p>
 			<div><strong>작성자</strong> ${comment.author.userName}</div>
-			<div><strong>작성일시</strong> ${comment.createdAt}</div>
+			<div><strong>작성일시</strong> ${comment.createdAt.toLocalDate()} ${String.format('%02d', board.createdAt.hour)}:${String.format('%02d', board.createdAt.minute)}</div>
 			<c:if test="${not empty sessionScope.loginUser && comment.author.userId == sessionScope.loginUser.userId}">
 				<form action="${pageContext.request.contextPath}/comment?act=remove" method="post" onsubmit="return disableSubmitButton(this)" >
 					<input type="hidden" name="board_id" value="${board.boardId}">

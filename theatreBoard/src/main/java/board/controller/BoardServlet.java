@@ -2,6 +2,7 @@ package board.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import board.dto.BoardDTO;
@@ -170,7 +171,27 @@ public class BoardServlet extends HttpServlet {
 	private void doList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		List<BoardDTO> boardList = boardService.getBoardList();
 		
-		req.setAttribute("boardList", boardList);
+		String pageParam = req.getParameter("page");
+		int pageNum = 1; // 기본 페이지 번호
+		
+		if (pageParam != null) {
+	        try {
+	            pageNum = Integer.parseInt(pageParam);
+	            if (pageNum <= 0) { // 페이지 번호가 0 이하면 1로 설정
+	                pageNum = 1;
+	            }
+	        } catch (NumberFormatException e) {
+	            pageNum = 1;
+	        }
+	    }
+		
+		int pageSize = 10;
+		
+		Map<String, Object> result = boardService.getBoardPage(pageNum, pageSize);
+		
+		req.setAttribute("boardList", result.get("boardList"));
+	    req.setAttribute("pageInfo", result.get("pageInfo"));
+		
 		
 		req.getRequestDispatcher("/WEB-INF/view/board/list.jsp").forward(req, resp);
 	}

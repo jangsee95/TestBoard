@@ -54,6 +54,7 @@ CREATE TABLE reviews (
     review_id SERIAL PRIMARY KEY,
     user_id VARCHAR(50) NOT NULL,
     theatre_id INT NOT NULL,
+    title text,
     content TEXT,
     rating DECIMAL(2, 1) NOT NULL CHECK (rating >= 0.5 AND rating <= 5.0), -- 0.5점에서 5점 사이의 값만 허용
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

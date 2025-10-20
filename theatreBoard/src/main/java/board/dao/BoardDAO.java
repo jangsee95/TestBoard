@@ -22,6 +22,49 @@ public class BoardDAO {
 	public static BoardDAO getInstance () {
 		return intance;
 	}
+	
+	public int getTotalCount() throws SQLException {
+	    String sql = "SELECT COUNT(*) FROM boards";
+	    try (Connection conn = util.getConnection();
+	         PreparedStatement pstmt = conn.prepareStatement(sql);
+	         ResultSet rs = pstmt.executeQuery()) {
+	        if (rs.next()) {
+	            return rs.getInt(1); // COUNT(*) 결과는 첫 번째 컬럼
+	        }
+	    }
+	    return 0; // 게시글이 없을 경우 0 반환
+	}
+	
+	public List<BoardDTO> selectPage(int offset, int limit) throws SQLException {
+	    // SQL 수정: LIMIT와 OFFSET 추가
+	    String sql = "SELECT b.board_id, b.title, u.user_name, b.board_regdate " +
+	                 "FROM boards b JOIN users u ON b.user_id = u.user_id " +
+	                 "ORDER BY b.board_id DESC " +
+	                 "LIMIT ? OFFSET ?"; // LIMIT와 OFFSET 추가
+	    List<BoardDTO> boards = new ArrayList<>();
+	    try (Connection conn = util.getConnection();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) { // try-with-resources 안으로 이동
+
+	        pstmt.setInt(1, limit);    // LIMIT 설정
+	        pstmt.setInt(2, offset);   // OFFSET 설정
+
+	        try (ResultSet rs = pstmt.executeQuery()) {
+	            while (rs.next()) {
+	                BoardDTO board = new BoardDTO();
+	                board.setBoardId(rs.getInt("board_id"));
+	                board.setTitle(rs.getString("title"));
+	                UserDTO author = new UserDTO();
+	                // UserDAO를 통해 UserDTO 전체를 가져올 수도 있지만,
+	                // 목록에서는 이름만 필요하므로 직접 설정
+	                author.setUserName(rs.getString("user_name"));
+	                board.setAuthor(author);
+	                board.setCreatedAt(rs.getTimestamp("board_regdate").toLocalDateTime());
+	                boards.add(board);
+	            }
+	        }
+	    } // Connection, PreparedStatement 자동 close
+	    return boards;
+	}
 
 	public List<BoardDTO> selectAll() throws SQLException {
 		String sql = "SELECT b.board_id, b.title, u.user_name FROM boards b JOIN users u ON b.user_id = u.user_id ORDER BY b.board_id DESC";
@@ -62,8 +105,12 @@ public class BoardDAO {
 					board.setBoardId(rs.getInt("board_id"));
 					board.setTitle(rs.getString("title"));
 					board.setContent(rs.getString("content"));
-					board.setAuthor(userDAO.selectOne(rs.getString("user_id")));
-					
+					UserDTO author = new UserDTO();
+	                author.setUserId(rs.getString("user_id"));
+	                author.setUserName(rs.getString("user_name"));
+	                author.setEmail(rs.getString("user_email")); // 필요하다면 이메일도 설정
+	                board.setAuthor(author);
+	                board.setCreatedAt(rs.getTimestamp("board_regdate").toLocalDateTime()); // 추가
 					return board;
 				}
 			}

@@ -22,8 +22,9 @@ public class ReviewDAO {
 		return instance;
 	}
 	
+	/* 하나 조회 메서드 */
 	public ReviewDTO getOne(int reviewId) throws SQLException {
-		String sql = "select c.review_id, c.theatre_id, c.content, c.rating, c.created_at, u.user_id, u.user_name\r\n"
+		String sql = "select r.review_id, r.theatre_id, r.title, r.content, r.rating, r.created_at, u.user_id, u.user_name\r\n"
 				+ "from reviews r join users u on r.user_id = u.user_id\r\n"
 				+ "where r.review_id = ?";
 		ReviewDTO review = new ReviewDTO();
@@ -34,7 +35,8 @@ public class ReviewDAO {
 			try (ResultSet rs = pstmt.executeQuery()) {
 				if (rs.next()) {
 					review.setReviewId(rs.getInt("review_id"));
-	                review.setTheatreId(rs.getInt("theatre_id")); // theatre_id 설정
+	                review.setTheatreId(rs.getInt("theatre_id"));
+	                review.setTitle(rs.getString("review_title"));
 	                review.setContent(rs.getString("content"));
 	                review.setRating(rs.getFloat("rating"));
 	                review.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
@@ -50,9 +52,10 @@ public class ReviewDAO {
 		
 		return review;
 	}
-	
+
+	/* 리스트 조회 메서드 */
 	public List<ReviewDTO> getList(int theatreId) throws SQLException {
-		String sql = "select c.review_id, c.theatre_id, c.content, c.rating, c.created_at, u.user_id, u.user_name\r\n"
+		String sql = "select r.review_id, r.theatre_id, r.content, r.rating, r.created_at, u.user_id, u.user_name\r\n"
 				+ "from reviews r join users u on r.user_id = u.user_id\r\n"
 				+ "where r.theatre_id = ?\r\n"
 				+ "order by r.created_at asc;";
@@ -64,7 +67,8 @@ public class ReviewDAO {
 				while (rs.next()) {
 					ReviewDTO review = new ReviewDTO();
 					review.setReviewId(rs.getInt("review_id"));
-	                review.setTheatreId(rs.getInt("theatre_id")); // theatre_id 설정
+	                review.setTheatreId(rs.getInt("theatre_id"));
+	                review.setTitle(rs.getString("title"));
 	                review.setContent(rs.getString("content"));
 	                review.setRating(rs.getFloat("rating"));
 	                review.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
@@ -81,15 +85,38 @@ public class ReviewDAO {
 		return list;
 	}
 	
-	public void insert (ReviewDTO review) {
-		
+	public void insert (ReviewDTO review) throws SQLException {
+		String sql = "insert into reviews (theatre_id, user_id, title, conetent, rating)"
+				+ "VALUES (?, ?, ?, ?, ?)";
+		try (Connection conn = util.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql);) {
+			pstmt.setInt(1, review.getTheatreId());
+			pstmt.setString(2, review.getAuthor().getUserId());
+			pstmt.setString(3, review.getTitle());
+			pstmt.setString(4, review.getContent());
+			pstmt.setFloat(5, review.getRating());
+			
+			pstmt.executeUpdate();
+		}
 	}
 	
-	public void update (ReviewDTO review) {
-		
+	public void update (ReviewDTO review) throws SQLException {
+		String sql ="update reviews set title = ?, content = ?, rating = ?";
+		try (Connection conn = util.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql);) {
+			pstmt.setString(1, review.getTitle());
+			pstmt.setString(0, review.getContent());
+			pstmt.setFloat(3, review.getRating());
+			
+		}
 	}
 	
-	public void delete (int reviewId) {
-		
+	public void delete (int reviewId) throws SQLException {
+		String sql = "DELETE FROM reviews WHERE review_id = ?";
+		try (Connection conn = util.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql);) {
+			pstmt.setInt(1, reviewId);
+			pstmt.executeUpdate();
+		}
 	}
 }
