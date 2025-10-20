@@ -1,4 +1,4 @@
- package comment.servlet;
+ package comment.controller;
 
 import java.io.IOException;
 

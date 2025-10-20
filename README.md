@@ -1,61 +1,125 @@
 # theatreBoard
 
-## 프로젝트 개요
+## 📖 프로젝트 소개
 
-`theatreBoard`는 JSP와 Servlet을 기반으로 한 간단한 웹 애플리케이션입니다. 이 프로젝트는 사용자 관리 및 게시판 기능을 포함하고 있으며, 연극 정보 관련 기능을 확장할 수 있는 구조를 가지고 있습니다.
+`theatreBoard`는 Java Servlet/JSP 기반의 웹 애플리케이션입니다. 이 프로젝트는 사용자 관리, 게시판, 연극 정보 조회 기능을 제공하며, MVC(Model-View-Controller) 아키텍처 패턴을 따릅니다.
 
-## 주요 기능
+## ✨ 주요 기능
 
 - **사용자 관리**
-  - 회원가입
-  - 로그인/로그아웃
-  - 회원정보 수정
-  - 비밀번호 변경
-  - 회원탈퇴
+  - 회원가입 및 로그인/로그아웃
+  - 회원정보 수정 및 비밀번호 변경
+  - 회원 탈퇴
 
 - **게시판**
-  - 게시글 목록 조회
-  - 게시글 상세 조회
-  - 게시글 작성
-  - 게시글 수정
-  - 게시글 삭제
+  - 게시글 목록 조회, 상세 조회
+  - 게시글 작성, 수정, 삭제
 
-- **연극 정보 (개발 중)**
-  - 연극 목록 조회 기능이 포함될 예정입니다.
+- **연극 정보**
+  - 연극 목록 조회
 
-## 기술 스택
+## 🛠️ 기술 스택
 
-- **Backend:** Java, Servlet
-- **Frontend:** JSP, JSTL
-- **Database:** MySQL
-- **Password Hashing:** jBCrypt
-- **Web Server:** Tomcat
+- **Backend**: Java, Jakarta Servlet, JSP, JSTL
+- **Database**: PostgreSQL
+- **Build Tool**: Gradle
+- **Password Hashing**: jBCrypt
+- **Web Server**: Tomcat
 
-## 프로젝트 구조
+## 📂 프로젝트 구조
 
 ```
 theatreBoard/
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   │   ├── board/      # 게시판 관련 (Controller, Service, DAO, DTO)
-│   │   │   ├── common/     # 공통 모듈 (DBUtil)
-│   │   │   ├── theatre/    # 연극 정보 관련 (Controller, Service, DAO, DTO)
-│   │   │   └── user/       # 사용자 관련 (Controller, Service, DAO, DTO)
-│   │   └── webapp/
-│   │       ├── WEB-INF/
-│   │       │   ├── lib/        # 라이브러리 (JAR 파일)
-│   │       │   └── view/       # JSP 뷰 파일
-│   │       ├── css/
-│   │       ├── js/
-│   │       └── index.jsp   # 메인 페이지
-├── .project
-├── .classpath
+├── src/main/
+│   ├── java/
+│   │   ├── board/      # 게시판 (Controller, Service, DAO, DTO)
+│   │   ├── common/     # 공통 모듈 (DBUtil, Error Handling)
+│   │   ├── exception/  # 예외 처리
+│   │   ├── theatre/    # 연극 정보 (Controller, Service, DAO, DTO)
+│   │   └── user/       # 사용자 (Controller, Service, DAO, DTO)
+│   └── webapp/
+│       ├── WEB-INF/
+│       │   ├── lib/
+│       │   └── view/   # JSP 뷰 파일
+│       └── index.jsp
+├── build.gradle        # 프로젝트 의존성 및 빌드 설정
 └── README.md
 ```
 
-## 설정 및 실행
+## ⚙️ 설치 및 실행 방법
 
-1. **데이터베이스 설정**: `common.util.DBUtil` 클래스에서 데이터베이스 연결 정보를 확인하고, 자신의 환경에 맞게 수정해야 합니다.
-2. **Tomcat 서버 설정**: Eclipse 또는 다른 IDE에서 Tomcat 서버를 설정하고, 프로젝트를 서버에 추가합니다.
-3. **실행**: 서버를 시작하고, 웹 브라우저에서 `http://localhost:8080/theatreBoard/` 와 같은 주소로 접속합니다.
+### 1. 데이터베이스 설정
+
+이 프로젝트는 PostgreSQL을 사용합니다. 아래 DDL을 참고하여 테이블을 생성해주세요.
+
+**Users Table:**
+```sql
+CREATE TABLE users (
+    user_id VARCHAR(50) PRIMARY KEY,
+    password VARCHAR(100) NOT NULL, -- jBCrypt로 해싱된 비밀번호
+    user_name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+**Board Table:**
+```sql
+CREATE TABLE board (
+    board_id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    content TEXT,
+    author_id VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (author_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+```
+
+**Theatre Table:**
+```sql
+CREATE TABLE theatre (
+    theatre_id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    genre VARCHAR(100),
+    play_time INT,
+    poster_uri VARCHAR(255),
+    performance_date_time TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+### 2. DB 연결 정보 수정
+
+`src/main/java/common/util/DBUtil.java` 파일에서 본인의 PostgreSQL 환경에 맞게 연결 정보를 수정해야 합니다.
+
+```java
+// DBUtil.java
+private static final String URL = "jdbc:postgresql://localhost:5432/your_database";
+private static final String USER = "your_username";
+private static final String PASSWORD = "your_password";
+```
+
+### 3. 빌드 및 실행
+
+1.  **프로젝트 빌드**:
+    프로젝트 루트 디렉토리에서 아래 명령어를 실행하여 `.war` 파일을 빌드합니다.
+    ```bash
+    ./gradlew build
+    ```
+
+2.  **Tomcat 배포**:
+    생성된 `build/libs/theatreBoard-0.0.1-SNAPSHOT.war` 파일을 Tomcat의 `webapps` 디렉토리에 배포합니다.
+
+3.  **서버 실행**:
+    Tomcat 서버를 시작하고, 웹 브라우저에서 `http://localhost:8080/theatreBoard-0.0.1-SNAPSHOT/` 주소로 접속합니다.
+
+## 🌐 URL 가이드
+
+각 기능은 서블릿의 `act` 파라미터를 통해 호출됩니다.
+
+- **사용자 관련**: `/user?act={action}`
+  - `loginForm`, `joinForm`, `myPage`, `logout` 등
+- **게시판 관련**: `/board?act={action}`
+  - `list`, `view`, `writeForm`, `write`, `updateForm`, `update`, `remove`
+- **연극 정보 관련**: `/theatre?act={action}`
+  - `list`
