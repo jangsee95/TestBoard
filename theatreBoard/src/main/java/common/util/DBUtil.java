@@ -5,13 +5,14 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBUtil {
-	// private final String url = "jdbc:mysql://localhost:3306/theatre_db?serverTimezone=Asia/Seoul"; // MySQL URL 형식, DB 이름, 타임존 설정 추가
-	// private final String username = "theatre_user"; 
-	// private final String password = "20142723"; 
-	private final String url = "DB_URL"; // MySQL URL 형식, DB 이름, 타임존 설정 추가
-	private final String username = "DB_USER"; 
-	private final String password = "DB_PASSWORD"; 
-	private final String driverName = "com.mysql.cj.jdbc.Driver"; // MySQL 드라이버 이름
+//	private final String url = "DB_URL";
+//	private final String username = "DB_USER"; 
+//	private final String password = "DB_PASSWORD"; 
+	private final String url = System.getenv("DB_URL");
+	private final String username = System.getenv("DB_USERNAME"); 
+	private final String password = System.getenv("DB_PASSWORD");
+	
+	private final String driverName = "com.mysql.cj.jdbc.Driver";
 	/**
 	 * Singleton Design Pattern을 적용해준다.
 	 */

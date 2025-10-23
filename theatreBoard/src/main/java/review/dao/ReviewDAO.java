@@ -55,7 +55,7 @@ public class ReviewDAO {
 
 	/* 리스트 조회 메서드 */
 	public List<ReviewDTO> getList(int theatreId) throws SQLException {
-		String sql = "select r.review_id, r.theatre_id, r.content, r.rating, r.created_at, u.user_id, u.user_name\r\n"
+		String sql = "select r.review_id, r.theatre_id, r.title, r.content, r.rating, r.created_at, u.user_id, u.user_name\r\n"
 				+ "from reviews r join users u on r.user_id = u.user_id\r\n"
 				+ "where r.theatre_id = ?\r\n"
 				+ "order by r.created_at asc;";
@@ -86,7 +86,7 @@ public class ReviewDAO {
 	}
 	
 	public void insert (ReviewDTO review) throws SQLException {
-		String sql = "insert into reviews (theatre_id, user_id, title, conetent, rating)"
+		String sql = "insert into reviews (theatre_id, user_id, title, content, rating)"
 				+ "VALUES (?, ?, ?, ?, ?)";
 		try (Connection conn = util.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(sql);) {

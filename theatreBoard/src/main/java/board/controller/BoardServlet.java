@@ -89,6 +89,13 @@ public class BoardServlet extends HttpServlet {
 	}
 
 	private void doUpdateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		HttpSession session = req.getSession();
+		String msg = (String) session.getAttribute("msg");
+		if (msg != null) {
+			req.setAttribute("msg", msg);
+			session.removeAttribute("msg");
+		}
+
 		int boardId = Integer.parseInt(req.getParameter("boardId"));
 		BoardDTO board = boardService.getBoard(boardId);
 		req.setAttribute("board", board);
@@ -137,6 +144,12 @@ public class BoardServlet extends HttpServlet {
 	private void doWriteForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession(false);
 		
+		String msg = (String) session.getAttribute("msg");
+		if (msg != null) {
+			req.setAttribute("msg", msg);
+			session.removeAttribute("msg");
+		}
+
 		if (session == null || session.getAttribute("loginUser") == null) {
 			req.getSession().setAttribute("msg", "로그인이 필요한 서비스입니다.");
 			resp.sendRedirect(req.getContextPath() + "/user?act=loginForm");
@@ -152,6 +165,13 @@ public class BoardServlet extends HttpServlet {
 	}
 
 	private void doView(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		HttpSession session = req.getSession();
+		String msg = (String) session.getAttribute("msg");
+		if (msg != null) {
+			req.setAttribute("msg", msg);
+			session.removeAttribute("msg");
+		}
+
 		int boardId = Integer.parseInt(req.getParameter("boardId"));
 		
 		BoardDTO board = boardService.getBoard(boardId);
@@ -169,6 +189,13 @@ public class BoardServlet extends HttpServlet {
 	}
 
 	private void doList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		HttpSession session = req.getSession();
+		String msg = (String) session.getAttribute("msg");
+		if (msg != null) {
+			req.setAttribute("msg", msg);
+			session.removeAttribute("msg");
+		}
+
 		List<BoardDTO> boardList = boardService.getBoardList();
 		
 		String pageParam = req.getParameter("page");

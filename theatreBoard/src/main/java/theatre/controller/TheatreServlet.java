@@ -13,6 +13,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import theatre.dto.TheatreDTO;
 import theatre.service.TheatreService;
+import review.dto.ReviewDTO;
+import review.service.ReviewService;
 
 /**
  * Servlet implementation class TheatreListServlet
@@ -37,9 +39,33 @@ public class TheatreServlet extends HttpServlet {
 		case "write":
 			doWrite(req, resp);
 			break;
+		case "view":
+			doView(req, resp);
+			break;
 		}
 	}
 	
+	private void doView(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		HttpSession session = req.getSession(); // Get session
+		String msg = (String) session.getAttribute("msg"); // Get message from session
+		if (msg != null) {
+			req.setAttribute("msg", msg); // Set message to request scope
+			session.removeAttribute("msg"); // Remove from session
+		}
+
+		int theatreId = Integer.parseInt(req.getParameter("theatreId"));
+
+		TheatreDTO theatre = theatreService.getTheatre(theatreId);
+		
+		// 리뷰 목록 가져오기
+		ReviewService reviewService = ReviewService.getInstance();
+		List<ReviewDTO> reviewList = reviewService.getList(theatreId);
+
+		req.setAttribute("theatre", theatre);
+		req.setAttribute("reviewList", reviewList);
+		req.getRequestDispatcher("/WEB-INF/view/theatre/view.jsp").forward(req, resp);
+	}
+
 	private void doWrite(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 	    // --- 아래 로그인 체크 블록을 맨 위에 추가 ---
 	    HttpSession session = req.getSession(false);

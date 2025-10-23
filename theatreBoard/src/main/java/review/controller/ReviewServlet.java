@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import review.dto.ReviewDTO;
 import review.service.ReviewService;
+import user.dto.UserDTO;
 
 @WebServlet("/review")
 public class ReviewServlet extends HttpServlet {
@@ -62,11 +63,13 @@ public class ReviewServlet extends HttpServlet {
 		String content = req.getParameter("content");
 		float rating = Float.parseFloat(req.getParameter("rating"));
 		
+		UserDTO loginUser = (UserDTO) session.getAttribute("loginUser");
 		ReviewDTO review = new ReviewDTO();
 		review.setTheatreId(theatreId);
 		review.setTitle(title);
 		review.setContent(content);
 		review.setRating(rating);
+		review.setAuthor(loginUser);
 		
 		if (reviewService.writeReview(review)) {
 			msg = "리뷰가 성공적으로 작성되었습니다.";
@@ -76,6 +79,7 @@ public class ReviewServlet extends HttpServlet {
 			req.getSession().setAttribute("msg", msg);
 		}
 		
+		resp.sendRedirect(req.getContextPath() + "/theatre?act=view&theatreId=" + theatreId);
 	}
 
 }

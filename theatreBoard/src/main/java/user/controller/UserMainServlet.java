@@ -110,6 +110,12 @@ public class UserMainServlet extends HttpServlet {
 	}
 
 	private void doChangePasswordForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		HttpSession session = req.getSession();
+		String msg = (String) session.getAttribute("msg");
+		if (msg != null) {
+			req.setAttribute("msg", msg);
+			session.removeAttribute("msg");
+		}
 		req.getRequestDispatcher("/WEB-INF/view/user/changePasswordForm.jsp").forward(req, resp);
 	}
 
@@ -132,6 +138,12 @@ public class UserMainServlet extends HttpServlet {
 	}
 
 	private void doEditProfileForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		HttpSession session = req.getSession();
+		String msg = (String) session.getAttribute("msg");
+		if (msg != null) {
+			req.setAttribute("msg", msg);
+			session.removeAttribute("msg");
+		}
 		req.getRequestDispatcher("/WEB-INF/view/user/editProfileForm.jsp").forward(req, resp);
 	}
 
@@ -141,6 +153,12 @@ public class UserMainServlet extends HttpServlet {
 	}
 
 	private void doMyPage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		HttpSession session = req.getSession();
+		String msg = (String) session.getAttribute("msg");
+		if (msg != null) {
+			req.setAttribute("msg", msg);
+			session.removeAttribute("msg");
+		}
 		req.getRequestDispatcher("/WEB-INF/view/user/myPage.jsp").forward(req, resp);
 	}
 
@@ -162,10 +180,22 @@ public class UserMainServlet extends HttpServlet {
 	}
 
 	private void doLoginForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		HttpSession session = req.getSession();
+		String msg = (String) session.getAttribute("msg");
+		if (msg != null) {
+			req.setAttribute("msg", msg);
+			session.removeAttribute("msg");
+		}
 		req.getRequestDispatcher("/WEB-INF/view/user/loginForm.jsp").forward(req, resp);
 	}
 
 	private void doShowJoinForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		HttpSession session = req.getSession();
+		String msg = (String) session.getAttribute("msg");
+		if (msg != null) {
+			req.setAttribute("msg", msg);
+			session.removeAttribute("msg");
+		}
 		req.getRequestDispatcher("/WEB-INF/view/user/joinForm.jsp").forward(req, resp);
 	}
 

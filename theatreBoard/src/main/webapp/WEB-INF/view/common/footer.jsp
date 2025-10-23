@@ -9,11 +9,11 @@
 <footer>
     <p>&copy; 2025 Theatre Board</p>
 </footer>
-<c:if test="${not empty fn:trim(sessionScope.msg)}">
+<c:if test="${not empty fn:trim(requestScope.msg)}">
     <script>
-        alert("${sessionScope.msg}");
+        alert("${requestScope.msg}");
     </script>
-       <c:remove var="msg" scope="session"/>
+       <c:remove var="msg" scope="request"/>
 </c:if>
 </body>
 </html>
