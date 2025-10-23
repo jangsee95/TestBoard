@@ -5,23 +5,29 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBUtil {
-	private final String url = System.getenv("DB_URL");
-	private final String username = System.getenv("DB_USERNAME");
-	private final String password = System.getenv("DB_PASSWORD");
-	private final String driverName = "org.postgresql.Driver";
+	// private final String url = "jdbc:mysql://localhost:3306/theatre_db?serverTimezone=Asia/Seoul"; // MySQL URL 형식, DB 이름, 타임존 설정 추가
+	// private final String username = "theatre_user"; 
+	// private final String password = "20142723"; 
+	private final String url = "DB_URL"; // MySQL URL 형식, DB 이름, 타임존 설정 추가
+	private final String username = "DB_USER"; 
+	private final String password = "DB_PASSWORD"; 
+	private final String driverName = "com.mysql.cj.jdbc.Driver"; // MySQL 드라이버 이름
 	/**
 	 * Singleton Design Pattern을 적용해준다.
 	 */
 	private static DBUtil instance = new DBUtil();
 
-	private DBUtil() {
-		// JDBC 드라이버를 로딩한다. 드라이버 로딩은 객체 생성 시 한번만 진행하도록 하자.
-		try {
-			Class.forName(driverName);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
+private DBUtil() {
+        try {
+            Class.forName(driverName);
+        } catch (ClassNotFoundException e) {
+            // 환경 변수가 설정되지 않았을 경우를 대비한 로깅 추가 (선택 사항)
+            if (url == null || username == null || password == null) {
+                System.err.println("DB 연결 환경 변수(DB_URL, DB_USER, DB_PASSWORD)가 설정되지 않았습니다.");
+            }
+            e.printStackTrace();
+        }
+    }
 
 	public static DBUtil getInstance() {
 		return instance;
@@ -34,8 +40,12 @@ public class DBUtil {
 	 * @throws SQLException
 	 */
 	public Connection getConnection() throws SQLException {
-		return DriverManager.getConnection(url, username, password);
-	}
+        // 환경 변수가 null이면 연결 시도 전에 예외 발생 (더 명확한 오류 처리)
+        if (url == null || username == null || password == null) {
+            throw new SQLException("DB 연결 환경 변수가 설정되지 않았습니다.");
+        }
+        return DriverManager.getConnection(url, username, password);
+    }
 
 	/**
 	 * 사용한 리소스들을 정리한다. Connection, Statement, ResultSet 모두 AutoCloseable 타입이다. ... 을

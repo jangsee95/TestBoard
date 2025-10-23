@@ -6,11 +6,14 @@ plugins {
     id 'war'  // 웹 애플리케이션(.war)으로 빌드하도록 설정
 }
 
+apply plugin: 'java'
+apply plugin: 'war' // 'plugins' 블록에 이미 있지만, 오래된 버전 호환성을 위해 추가
+
+
 // 프로젝트의 그룹 이름과 버전
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 
-// 자바 컴파일러 버전을 17로 설정
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
@@ -32,6 +35,9 @@ dependencies {
 
     // PostgreSQL JDBC 드라이버
     implementation 'org.postgresql:postgresql:42.7.3'
+
+    // --- MySQL JDBC 드라이버 추가 ---
+    implementation 'mysql:mysql-connector-java:8.0.33' 
 
     // 비밀번호 암호화를 위한 jbcrypt 라이브러리
     implementation 'org.mindrot:jbcrypt:0.4'
