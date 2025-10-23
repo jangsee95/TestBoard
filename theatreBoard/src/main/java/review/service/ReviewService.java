@@ -5,9 +5,11 @@ import java.util.List;
 
 import review.dao.ReviewDAO;
 import review.dto.ReviewDTO;
+import theatre.dao.TheatreDAO;
 
 public class ReviewService {
-	ReviewDAO reviewDAO = ReviewDAO.getInstance();
+	private ReviewDAO reviewDAO = ReviewDAO.getInstance();
+	private TheatreDAO theatreDAO = TheatreDAO.getInstance();
 	
 	private static ReviewService instance = new ReviewService();
 	
@@ -20,6 +22,7 @@ public class ReviewService {
 	public boolean writeReview(ReviewDTO review) {
 		try {
 			reviewDAO.insert(review);
+			updateTheatreAverageRating(review.getTheatreId());
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -57,11 +60,25 @@ public class ReviewService {
 	
 	public boolean deleteReview(int reviewId) {
 		try {
+			int theatreId = reviewDAO.getOne(reviewId).getTheatreId();
 			reviewDAO.delete(reviewId);
+			updateTheatreAverageRating(theatreId);
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
 		}
 	}
+	
+	public boolean updateTheatreAverageRating(int theatreId) {
+	    try {
+	        float averageRating = reviewDAO.getAVGRating(theatreId);
+	        theatreDAO.updateRating(theatreId, averageRating);
+	        return true;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+	
 }

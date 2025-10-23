@@ -53,6 +53,10 @@ public class TheatreDAO {
 				theatre.setGenre(rs.getString("genre"));
 				theatre.setContent(rs.getString("content"));
 				theatre.setPlayTime(rs.getInt("playtime"));
+				theatre.setRating(rs.getFloat("rating"));
+				if (rs.wasNull()) {
+					theatre.setRating(0.0f);
+				}
 				theatre.setPosterUrl(rs.getString("poster_url"));
 				theatre.setPerformanceDateTime(rs.getTimestamp("performance_datetime").toLocalDateTime());
 				theatre.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
@@ -75,6 +79,10 @@ public class TheatreDAO {
 					theatre.setGenre(rs.getString("genre"));
 					theatre.setContent(rs.getString("content"));
 					theatre.setPlayTime(rs.getInt("playtime"));
+					theatre.setRating(rs.getFloat("rating"));
+					if (rs.wasNull()) {
+						theatre.setRating(0.0f);
+					}
 					theatre.setPosterUrl(rs.getString("poster_url"));
 					theatre.setPerformanceDateTime(rs.getTimestamp("performance_datetime").toLocalDateTime());
 					theatre.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
@@ -108,5 +116,15 @@ public class TheatreDAO {
 
 			return pstmt.executeUpdate() == 1;
 		}
+	}
+	
+	public void updateRating(int theatreId, float rating) throws SQLException {
+		String sql = "UPDATE theatres SET rating = ? WHERE theatre_id = ?";
+		try (Connection conn = util.getConnection();
+		         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+		        pstmt.setDouble(1, rating);
+		        pstmt.setInt(2, theatreId);
+		        pstmt.executeUpdate();
+		    }
 	}
 }

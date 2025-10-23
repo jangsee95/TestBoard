@@ -8,6 +8,7 @@ public class TheatreDTO {
 	private String genre;
 	private String content;
 	private int playTime;
+	private float rating;
 	private String posterUrl;
 	private LocalDateTime performanceDateTime;
 	private LocalDateTime createdAt;
@@ -16,19 +17,18 @@ public class TheatreDTO {
 	 public TheatreDTO() {
 	}
 
-
-	 public TheatreDTO(int theatreId, String title, String genre,String content, int playTime, String posterUrl,
-			LocalDateTime performanceDateTime, LocalDateTime createdAt) {
-		super();
+	 public TheatreDTO(int theatreId, String title, String genre, String content, int playTime, float rating,
+			String posterUrl, LocalDateTime performanceDateTime, LocalDateTime createdAt) {
 		this.theatreId = theatreId;
 		this.title = title;
 		this.genre = genre;
 		this.content = content;
 		this.playTime = playTime;
+		this.rating = rating;
 		this.posterUrl = posterUrl;
 		this.performanceDateTime = performanceDateTime;
 		this.createdAt = createdAt;
-	 }
+	}
 
 
 	 public int getTheatreId() {
@@ -79,7 +79,14 @@ public class TheatreDTO {
 	 public void setPlayTime(int playTime) {
 		 this.playTime = playTime;
 	 }
+	 
+	 public float getRating() {
+		return rating;
+	}
 
+	 public void setRating(float rating) {
+		 this.rating = rating;
+	 }
 
 	 public String getPosterUrl() {
 		 return posterUrl;
@@ -110,12 +117,11 @@ public class TheatreDTO {
 		 this.createdAt = createdAt;
 	 }
 
-
 	 @Override
 	 public String toString() {
 		return "TheatreDTO [theatreId=" + theatreId + ", title=" + title + ", genre=" + genre + ", content=" + content
-				+ ", playTime=" + playTime + ", posterUrl=" + posterUrl + ", performanceDateTime=" + performanceDateTime
-				+ ", createdAt=" + createdAt + "]";
+				+ ", playTime=" + playTime + ", rating=" + rating + ", posterUrl=" + posterUrl
+				+ ", performanceDateTime=" + performanceDateTime + ", createdAt=" + createdAt + "]";
 	 }
 	 
 }
