@@ -5,12 +5,12 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBUtil {
-//	private final String url = "DB_URL";
-//	private final String username = "DB_USER"; 
-//	private final String password = "DB_PASSWORD"; 
-	private final String url = System.getenv("DB_URL");
-	private final String username = System.getenv("DB_USERNAME"); 
-	private final String password = System.getenv("DB_PASSWORD");
+	private final String url = "DB_URL";
+	private final String username = "DB_USER"; 
+	private final String password = "DB_PASSWORD"; 
+//	private final String url = System.getenv("DB_URL");
+//	private final String username = System.getenv("DB_USERNAME"); 
+//	private final String password = System.getenv("DB_PASSWORD");
 	
 	private final String driverName = "com.mysql.cj.jdbc.Driver";
 	/**
