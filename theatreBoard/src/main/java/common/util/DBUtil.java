@@ -5,12 +5,13 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBUtil {
-	// private final String url = "jdbc:mysql://localhost:3306/theatre_db";
-	// private final String username = "theatre_user"; 
-	// private final String password = "Abcd1234!"; 
 	private final String url = System.getenv("DB_URL");
 	private final String username = System.getenv("DB_USERNAME"); 
 	private final String password = System.getenv("DB_PASSWORD");
+	
+	// private final String url = "jdbc:mysql://localhost:3306/theatre_db";
+	// private final String username = "theatre_user"; 
+	// private final String password = "Abcd1234!";
 	
 	private final String driverName = "com.mysql.cj.jdbc.Driver";
 	/**
@@ -21,9 +22,14 @@ public class DBUtil {
 private DBUtil() {
         try {
             Class.forName(driverName);
+				System.out.println("System.getenv(DB_URL): " + System.getenv("DB_URL"));
+      			System.out.println("System.getenv(DB_USER): " + System.getenv("DB_USERNAME"));
+        		System.out.println("System.getenv(DB_PASS): " + System.getenv("DB_PASSWORD"));
         } catch (ClassNotFoundException e) {
             // 환경 변수가 설정되지 않았을 경우를 대비한 로깅 추가 (선택 사항)
             if (url == null || username == null || password == null) {
+
+
                 System.err.println("DB 연결 환경 변수(DB_URL, DB_USER, DB_PASSWORD)가 설정되지 않았습니다.");
             }
             e.printStackTrace();
@@ -41,6 +47,7 @@ private DBUtil() {
 	 * @throws SQLException
 	 */
 	public Connection getConnection() throws SQLException {
+
         // 환경 변수가 null이면 연결 시도 전에 예외 발생 (더 명확한 오류 처리)
         if (url == null || username == null || password == null) {
             throw new SQLException("DB 연결 환경 변수가 설정되지 않았습니다.");
