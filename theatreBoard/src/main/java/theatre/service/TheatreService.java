@@ -22,7 +22,7 @@ public class TheatreService {
 		try {
 			return theatreDAO.selectAll();
 		} catch (SQLException e) {
-			throw new RuntimeException();
+			throw new RuntimeException("Theatre 목록을 가져오는 중 DB 오류 발생", e);
 		}
 	}
 
