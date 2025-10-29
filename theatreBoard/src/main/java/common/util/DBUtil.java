@@ -5,9 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBUtil {
-	private final String url = "DB_URL";
-	private final String username = "DB_USER"; 
-	private final String password = "DB_PASSWORD"; 
+	private final String url = "jdbc:mysql://localhost:3306/theatre_db";
+	private final String username = "theatre_user"; 
+	private final String password = "Abcd1234!"; 
 //	private final String url = System.getenv("DB_URL");
 //	private final String username = System.getenv("DB_USERNAME"); 
 //	private final String password = System.getenv("DB_PASSWORD");
