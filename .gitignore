@@ -28,10 +28,16 @@ DB_config.txt
 
 # Gradle cache
 .gradle/
+target/
 
 # Build output
 build/
 
 # IDE settings
+.classpath
+.project
 .settings/
 bin/
+
+# Other common
+.DS_Store
